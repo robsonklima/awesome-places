@@ -3,7 +3,6 @@ import { Storage } from "@ionic/storage";
 import { File } from "ionic-native";
 
 import { Place } from "../models/place";
-import { Location } from "../models/location";
 
 declare var cordova: any;
 
@@ -17,14 +16,14 @@ export class PlacesService {
 
   addPlace(title: string,
            description: string,
-           location: Location,
            imageUrl: string) {
-    const place = new Place(title, description, location, imageUrl);
+    const place = new Place(title, description, imageUrl);
+
     this.places.push(place);
 
-    this.storage.set('places', this.places)
-      .then()
-      .catch(
+    this.storage.set('places', this.places).then(() => {
+
+    }).catch(
         err => {
           this.places.splice(this.places.indexOf(place), 1);
         }
@@ -72,8 +71,7 @@ export class PlacesService {
       .catch(
         () => {
           console.log('Error while removing File');
-          this.addPlace(place.title, place.description, place.location, 
-            place.imageUrl);
+          this.addPlace(place.title, place.description, place.imageUrl);
         }
       );
   }
