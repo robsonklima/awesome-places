@@ -40,4 +40,10 @@ export class HomePage implements OnInit {
       }
     );
   }
+
+  onDelete(place: Place, i: number) {
+    this.placesService.deletePlace(i).then(() => {
+      this.places = this.placesService.loadPlaces();
+    })
+  }
 }
